@@ -16,7 +16,7 @@ export async function mongoInit() {
       process.exit();
     });
   } catch (error) {
-    console.log('Something went wrong!');
+    console.log('Something went wrong while connecting mongodb!');
     console.log(error);
   }
 }
