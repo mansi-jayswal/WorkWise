@@ -11,6 +11,8 @@ import Image from 'next/image';
 import { LoginFormValues, loginSchema } from '@/app/schemas/loginSchema';
 import { useRouter } from 'next/navigation';
 import { FaGoogle } from 'react-icons/fa';
+import { useToast } from '@/components/ui/use-toast';
+import Link from 'next/link';
 
 export default function Login() {
   const {
@@ -20,7 +22,10 @@ export default function Login() {
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
   });
+
   const router = useRouter();
+  const { toast } = useToast();
+
   const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
     console.log(data);
     const res = await signIn('credentials', {
@@ -28,11 +33,27 @@ export default function Login() {
       password: data?.password,
       redirect: false,
     });
+    console.log(res);
+
     if (res?.error) {
-      alert('Invalid Credentials');
+      let errorMessage = 'An unknown error occurred';
+      if (res.error === 'User does not exist') {
+        errorMessage = 'User does not exist! :(';
+      } else if (res.error === 'Invalid credentials') {
+        errorMessage = 'Invalid credentials! :( ';
+      }
+
+      toast({
+        title: errorMessage,
+        variant: 'warn',
+      });
       return;
     }
-    alert('login sucessfull');
+
+    toast({
+      title: 'Logged In Successfully!',
+      variant: 'success',
+    });
     router.replace('/');
   };
 
@@ -96,6 +117,12 @@ export default function Login() {
             Sign in with Google
           </Button>
         </form>
+        <div className="flex items-center justify-center space-x-2">
+          <span>Don&#39;t have an account?</span>
+          <Link href={'/register'} className="text-blue-800">
+            Register here!
+          </Link>
+        </div>
       </div>
     </div>
   );

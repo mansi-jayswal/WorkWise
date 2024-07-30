@@ -65,19 +65,18 @@ export const authOptions = {
         });
         const resdata = await res.json();
         console.log('Login...', resdata);
-        if (
-          resdata.status === 400 ||
-          resdata.status === 401 ||
-          resdata.status === 403 ||
-          resdata.status === 500
-        ) {
-          return null;
+
+        if (resdata.status === 404) {
+          throw new Error('User does not exist');
+        } else if (resdata.status === 400) {
+          throw new Error('Invalid credentials');
         }
+
         if (resdata.status === 200 || resdata.status === 201) {
           return resdata.user;
         }
         // Return null if user data could not be retrieved
-        return null;
+        throw new Error('Failed to authorize user');
       },
     }),
   ],
@@ -109,3 +108,10 @@ export const authOptions = {
 const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
+
+// if (user?.error === 'User does not exists') {
+//   throw new Error('User does not exists');
+// }
+// if (user?.error === 'Invalid credentials') {
+//   throw new Error('Invalid credentials');
+// }

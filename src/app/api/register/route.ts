@@ -14,6 +14,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         message: 'user already exist',
         status: 400,
+        user: null,
+        success: false,
       });
     }
     const hashedPass = await bcrypt.hash(password, 10);
@@ -25,12 +27,17 @@ export async function POST(request: NextRequest) {
     const savedUser = await newUser.save();
     return NextResponse.json({
       message: 'User registered succesfully!',
+      status: 200,
       user: savedUser,
+      success: true,
     });
   } catch (error: any) {
     return NextResponse.json(
       {
         message: error.message,
+        status: 500,
+        user: null,
+        success: false,
       },
       {
         status: 500,

@@ -15,6 +15,7 @@ import { FaRegBookmark } from 'react-icons/fa';
 import { FaBookmark } from 'react-icons/fa';
 import Image from 'next/image';
 import { useState } from 'react';
+import { Badge } from '../ui/badge';
 
 function JobCard() {
   const [isSaved, setIsSaved] = useState(false);
@@ -48,15 +49,9 @@ function JobCard() {
               <span className="text-sm">Posted today</span>
             </div>
             <div className="flex flex-row gap-3">
-              <Button className="rounded-lg px-2 py-1" variant={'secondary'}>
-                Remote
-              </Button>
-              <Button className="rounded-lg px-2 py-1" variant={'secondary'}>
-                Full Time
-              </Button>
-              <Button className="rounded-lg px-2 py-1" variant={'secondary'}>
-                Hybrid
-              </Button>
+              <Badge>Remote</Badge>
+              <Badge>Full time</Badge>
+              <Badge>Hybrid</Badge>
             </div>
             <div className="flex flex-col gap-2">
               <Label>Salary:</Label>

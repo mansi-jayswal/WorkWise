@@ -1,7 +1,7 @@
 import React from 'react';
 
 function page() {
-  return <div>Protected route</div>;
+  return <div>User profile</div>;
 }
 
 export default page;
