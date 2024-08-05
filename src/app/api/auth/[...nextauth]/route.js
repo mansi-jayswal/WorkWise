@@ -96,10 +96,15 @@ export const authOptions = {
       return true;
     },
     async jwt({ token }) {
-      token.role = 'user';
+      const user = await User.findOne({ email: token.email });
+      console.log({ user });
+      token.role = user.role;
       return token;
     },
-    async session({ session }) {
+    async session({ session, token }) {
+      if (token?.role) {
+        session.user.role = token.role;
+      }
       return session;
     },
   },
@@ -108,10 +113,3 @@ export const authOptions = {
 const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
-
-// if (user?.error === 'User does not exists') {
-//   throw new Error('User does not exists');
-// }
-// if (user?.error === 'Invalid credentials') {
-//   throw new Error('Invalid credentials');
-// }

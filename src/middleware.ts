@@ -1,9 +1,11 @@
 import type { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 import { NextResponse } from 'next/server';
+import { userRole } from './constants/enums';
 
 export async function middleware(request: NextRequest) {
-  const protectedRoutes = ['/dashboard', '/profile'];
+  const userRoutes = ['/dashboard', '/saved-posts'];
+  const adminRoutes = ['/admin', '/admin/jobs'];
 
   const token = await getToken({
     req: request,
@@ -12,20 +14,41 @@ export async function middleware(request: NextRequest) {
 
   const url = request.nextUrl.clone();
 
-  const isProtectedRoute = protectedRoutes.some((prefix) =>
+  const isUserRoute = userRoutes.some((prefix) =>
     url.pathname.startsWith(prefix),
   );
 
-  // if token is not there and user is tryna access protected route then redirect them to login page
-  if (!token && isProtectedRoute) {
+  const isAdminRoute = adminRoutes.some((prefix) =>
+    url.pathname.startsWith(prefix),
+  );
+
+  // Redirect to login if trying to access a protected route without a token
+  if (!token && (isAdminRoute || isUserRoute)) {
     url.pathname = '/login';
     return NextResponse.redirect(url);
   }
 
-  // if token is n there and user is tryna access login or signuo route then redirect them to dashboard page
+  // Redirect to dashboard if already logged in and trying to access login or register
   if (token && (url.pathname === '/login' || url.pathname === '/register')) {
-    url.pathname = '/dashboard'; // Redirect to a protected page
+    if (token.role === userRole.ADMIN) {
+      url.pathname = '/admin';
+    } else {
+      url.pathname = '/dashboard';
+    }
     return NextResponse.redirect(url);
+  }
+
+  if (token) {
+    const userRole = token.role;
+    if (isUserRoute && userRole !== 'user') {
+      url.pathname = '/403'; // error page
+      return NextResponse.redirect(url);
+    }
+
+    if (isAdminRoute && userRole !== 'admin') {
+      url.pathname = '/403'; // error page
+      return NextResponse.redirect(url);
+    }
   }
 
   return NextResponse.next();

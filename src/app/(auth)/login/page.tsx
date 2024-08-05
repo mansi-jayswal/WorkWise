@@ -33,7 +33,7 @@ export default function Login() {
       password: data?.password,
       redirect: false,
     });
-    console.log(res);
+    console.log('res from signIn method', res);
 
     if (res?.error) {
       let errorMessage = 'An unknown error occurred';
@@ -54,6 +54,7 @@ export default function Login() {
       title: 'Logged In Successfully!',
       variant: 'success',
     });
+
     router.replace('/');
   };
 
@@ -98,25 +99,23 @@ export default function Login() {
           <Button type="submit" className="w-full">
             Sign In
           </Button>
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
-                Or
-              </span>
-            </div>
-          </div>
-          <Button
-            variant="outline"
-            className="flex w-full items-center justify-center"
-            onClick={() => signIn('google', { callbackUrl: '/' })}
-          >
-            <FaGoogle className="mr-2 h-5 w-5" />
-            Sign in with Google
-          </Button>
         </form>
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-background px-2 text-muted-foreground">Or</span>
+          </div>
+        </div>
+        <Button
+          variant="outline"
+          className="flex w-full items-center justify-center"
+          onClick={() => signIn('google', { callbackUrl: '/' })}
+        >
+          <FaGoogle className="mr-2 h-5 w-5" />
+          Sign in with Google
+        </Button>
         <div className="flex items-center justify-center space-x-2">
           <span>Don&#39;t have an account?</span>
           <Link href={'/register'} className="text-blue-800">

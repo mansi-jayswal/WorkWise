@@ -1,23 +1,17 @@
 'use client';
-import ThemeToggler from '@/components/custom/ThemeToggler';
-import { Button } from '@/components/ui/button';
-import { signOut, useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 
 export default function HomePage() {
-  const { data: session } = useSession();
-  const router = useRouter();
   return (
     <>
       <div className="container m-5 flex justify-between gap-4 p-4">
-        <ThemeToggler />
-        {session ? (
+        {/* <ThemeToggler /> */}
+        {/* {session ? (
           <Button onClick={() => signOut({ callbackUrl: '/login' })}>
             Logout
           </Button>
         ) : (
           <Button onClick={() => router.push('/login')}>Login</Button>
-        )}
+        )} */}
       </div>
     </>
   );

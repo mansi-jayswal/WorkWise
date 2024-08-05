@@ -25,7 +25,7 @@ function JobCard() {
   };
   return (
     <div className="m-4">
-      <Card className="w-[350px]">
+      <Card className="w-full">
         <CardHeader className="flex flex-row items-center justify-between">
           <div className="flex h-14 w-14 items-center justify-center rounded-full border object-fill">
             <Image src={joblogo} alt="Company Logo" width={500} height={500} />

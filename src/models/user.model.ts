@@ -1,3 +1,4 @@
+import { userRole } from '@/constants/enums';
 import mongoose, { Document, Model, Schema } from 'mongoose';
 
 // Define the TypeScript interface for the user
@@ -7,8 +8,9 @@ interface IUser extends Document {
   password: string;
   email: string;
   savedPosts: string[];
+  imageUrl: string;
+  role: string;
 }
-
 // Creating  the user schema
 const userSchema: Schema<IUser> = new mongoose.Schema({
   name: {
@@ -26,6 +28,15 @@ const userSchema: Schema<IUser> = new mongoose.Schema({
     type: [String],
     default: [],
     required: false,
+  },
+  imageUrl: {
+    type: String,
+    required: false,
+  },
+  role: {
+    type: String,
+    required: true,
+    default: userRole.USER,
   },
 });
 
