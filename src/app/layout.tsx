@@ -25,16 +25,18 @@ export default async function RootLayout({
     <html lang="en">
       <SessionProviderWrapper session={session}>
         <body className={inter.className}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Toaster />
-            <Navbar />
-            <main>{children}</main>
-          </ThemeProvider>
+          <div className="container">
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Toaster />
+              <Navbar />
+              <main>{children}</main>
+            </ThemeProvider>
+          </div>
         </body>
       </SessionProviderWrapper>
     </html>
