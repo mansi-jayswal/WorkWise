@@ -18,7 +18,8 @@ export default function Login() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+
+    formState: { errors, isSubmitting },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
   });
@@ -96,8 +97,8 @@ export default function Login() {
               <p className="text-red-500">{errors.password.message}</p>
             )}
           </div>
-          <Button type="submit" className="w-full">
-            Sign In
+          <Button type="submit" className="w-full" disabled={isSubmitting}>
+            {isSubmitting ? 'Please wait' : 'Sign In'}
           </Button>
         </form>
         <div className="relative">

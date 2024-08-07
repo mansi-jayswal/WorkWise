@@ -7,12 +7,10 @@ import logo from '../../../public/favicon.jpg';
 import { IoMenu } from 'react-icons/io5';
 import { useRouter } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
@@ -21,6 +19,8 @@ import { useEffect, useState } from 'react';
 import { userRole } from '@/constants/enums';
 import { adminLinks } from '@/constants/navLinks';
 import { userLinks } from '@/constants/navLinks';
+import { RiLogoutCircleRLine } from 'react-icons/ri';
+import AvtarComp from './AvtarComp';
 
 interface LinkItem {
   href: string;
@@ -40,7 +40,7 @@ export default function Navbar() {
     } else {
       setLinks(userLinks);
     }
-  }, [session]);
+  }, [role]);
 
   return (
     <header className="flex h-20 w-full shrink-0 items-center justify-between">
@@ -61,7 +61,7 @@ export default function Navbar() {
           </Button>
         </SheetTrigger>
         <SheetContent side="left">
-          <Link href="#" className="flex items-center gap-2" prefetch={false}>
+          <Link href="/" className="flex items-center gap-2" prefetch={false}>
             <Image src={logo} alt="app logo" height={40} width={40} />{' '}
             <span className="text-lg font-semibold">Workwise</span>
           </Link>
@@ -101,26 +101,27 @@ export default function Navbar() {
               <div className="">
                 <DropdownMenu>
                   <DropdownMenuTrigger>
-                    <Avatar>
-                      <AvatarImage src={session.user?.image?.toString()} />
-                      <AvatarFallback>
-                        {session?.user?.name?.charAt(0).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
+                    <AvtarComp
+                      image={session.user.image}
+                      name={session.user.name}
+                    />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuLabel
+                    <DropdownMenuItem
                       onClick={() => router.push('/dashboard')}
                       className="cursor-pointer"
                     >
                       Profile
-                    </DropdownMenuLabel>
-                    <DropdownMenuLabel>Saved jobs</DropdownMenuLabel>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>Saved jobs</DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
                       onClick={() => signOut({ callbackUrl: '/login' })}
                     >
-                      Logout
+                      <div className="flex items-center space-x-2 text-center">
+                        <p>Logout</p>
+                        <RiLogoutCircleRLine size={20} />
+                      </div>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>

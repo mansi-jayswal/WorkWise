@@ -10,7 +10,6 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import Heading3 from '../heading/Heading3';
 import { FaRegBookmark } from 'react-icons/fa';
 import { FaBookmark } from 'react-icons/fa';
 import Image from 'next/image';
@@ -24,11 +23,11 @@ function JobCard() {
     setIsSaved(!isSaved);
   };
   return (
-    <div className="m-4">
-      <Card className="w-full">
+    <div className="">
+      <Card className="w-[80vw] max-w-max">
         <CardHeader className="flex flex-row items-center justify-between">
-          <div className="flex h-14 w-14 items-center justify-center rounded-full border object-fill">
-            <Image src={joblogo} alt="Company Logo" width={500} height={500} />
+          <div className="flex h-10 w-10 items-center justify-center rounded-full border object-fill">
+            <Image src={joblogo} alt="Company Logo" width={300} height={300} />
           </div>
           <Button
             variant="outline"
@@ -51,17 +50,16 @@ function JobCard() {
             <div className="flex flex-row gap-3">
               <Badge>Remote</Badge>
               <Badge>Full time</Badge>
-              <Badge>Hybrid</Badge>
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label>Salary:</Label>
-              <Heading3 className="">$80K/year</Heading3>
+              <Badge>Freelancer</Badge>
             </div>
           </div>
         </CardContent>
-        <CardFooter className="flex justify-between">
-          <Button variant="outline">Read more</Button>
-          <Button>Apply now</Button>
+        <CardFooter className="flex items-center justify-between">
+          <div className="flex flex-col gap-1 font-bold">
+            <Label>Salary:</Label>
+            <h4 className="text-xl">$80K/year</h4>
+          </div>
+          <Button className="rounded-xl">Read more</Button>
         </CardFooter>
       </Card>
     </div>
