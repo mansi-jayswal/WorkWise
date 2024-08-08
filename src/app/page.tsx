@@ -1,5 +1,5 @@
 import HomePage from '@/components/custom/HomePage';
-import JobCard from '@/components/custom/JobCard';
+// import JobCard from '@/components/custom/JobCard';
 import React from 'react';
 
 function page() {
@@ -8,7 +8,7 @@ function page() {
       <div>
         <HomePage />
       </div>
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+      {/* <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
         <JobCard />
         <JobCard />
         <JobCard />
@@ -19,7 +19,7 @@ function page() {
         <JobCard />
         <JobCard />
         <JobCard />
-      </div>
+      </div> */}
     </>
   );
 }
