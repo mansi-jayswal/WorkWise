@@ -18,7 +18,6 @@ import {
 import { Checkbox } from '@/components/ui/checkbox';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import AvtarComp from '@/components/custom/AvtarComp';
-
 export default function Dashboard() {
   const { data: session } = useSession();
   console.log(session);
