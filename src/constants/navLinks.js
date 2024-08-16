@@ -1,7 +1,8 @@
 export const adminLinks = [
-  { href: '#', label: 'Dashboard' },
-  { href: '#', label: 'Manage Users' },
-  { href: '#', label: 'Manage jobs' },
+  { href: '/admin', label: 'Dashboard' },
+  // { href: '#', label: 'Manage Users' },
+  { href: '/admin/jobs', label: 'Manage jobs' },
+  { href: '/admin/create-job', label: 'Create job' },
 ];
 
 export const userLinks = [
