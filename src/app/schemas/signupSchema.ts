@@ -1,5 +1,8 @@
 import { z } from 'zod';
 
+const passwordRules =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{4,}$/;
+
 export const registerSchema = z
   .object({
     name: z
@@ -12,8 +15,11 @@ export const registerSchema = z
       .email('Invalid email address'),
     password: z
       .string()
-      .nonempty('Password is required')
-      .min(6, 'Password must be at least 6 characters long'),
+      .nonempty('password is required')
+      .regex(
+        passwordRules,
+        'Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character',
+      ),
     confirmPassword: z.string().nonempty('Confirm password is required'),
   })
   .refine((data) => data.password === data.confirmPassword, {

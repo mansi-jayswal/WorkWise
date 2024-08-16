@@ -1,33 +1,26 @@
 'use client';
-
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { signIn } from 'next-auth/react';
 import logo from '../../../../public/favicon.jpg';
 import Image from 'next/image';
-import { LoginFormValues, loginSchema } from '@/app/schemas/loginSchema';
+import { loginSchema } from '@/app/schemas/loginSchema';
 import { useRouter } from 'next/navigation';
 import { FaGoogle } from 'react-icons/fa';
 import { useToast } from '@/components/ui/use-toast';
 import Link from 'next/link';
+import { z } from 'zod';
+import CustomForm from '@/components/custom/CustomForm';
 
 export default function Login() {
-  const {
-    register,
-    handleSubmit,
-
-    formState: { errors, isSubmitting },
-  } = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
-  });
-
   const router = useRouter();
   const { toast } = useToast();
 
-  const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
+  const initialValues = {
+    email: '',
+    password: '',
+  };
+
+  const onSubmit = async (data: z.infer<typeof loginSchema>) => {
     console.log(data);
     const res = await signIn('credentials', {
       email: data?.email,
@@ -60,7 +53,7 @@ export default function Login() {
   };
 
   return (
-    <div className="mx-auto mt-32 px-4 md:px-0">
+    <div className="mx-auto px-4 pt-8 md:px-0 lg:pt-0">
       <div className="flex justify-center">
         <Image src={logo} alt="favicon icon" height={40} width={40} />
       </div>
@@ -72,35 +65,31 @@ export default function Login() {
             Enter your email and password to sign in to your account.
           </p>
         </div>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="m@example.com"
-              {...register('email')}
-            />
-            {errors.email && (
-              <p className="text-red-500">{errors.email.message}</p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="12345678"
-              {...register('password')}
-            />
-            {errors.password && (
-              <p className="text-red-500">{errors.password.message}</p>
-            )}
-          </div>
-          <Button type="submit" className="w-full" disabled={isSubmitting}>
-            {isSubmitting ? 'Please wait' : 'Sign In'}
+
+        <CustomForm<z.infer<typeof loginSchema>>
+          initialValues={initialValues}
+          formSchema={loginSchema}
+          onSubmit={onSubmit}
+          elements={[
+            {
+              element: 'email',
+              label: 'Email',
+              placeholder: 'abc@example.com',
+              key: 'email',
+            },
+            {
+              element: 'password',
+              label: 'Password',
+              placeholder: '*******',
+              key: 'password',
+            },
+          ]}
+        >
+          <Button type="submit" className="w-full">
+            Login
           </Button>
-        </form>
+        </CustomForm>
+
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t" />
@@ -117,7 +106,7 @@ export default function Login() {
           <FaGoogle className="mr-2 h-5 w-5" />
           Sign in with Google
         </Button>
-        <div className="flex items-center justify-center space-x-2">
+        <div className="flex flex-col items-center justify-center gap-2 lg:flex-row">
           <span>Don&#39;t have an account?</span>
           <Link href={'/register'} className="text-blue-800">
             Register here!

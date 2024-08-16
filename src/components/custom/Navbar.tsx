@@ -1,5 +1,10 @@
 'use client';
-import { Sheet, SheetTrigger, SheetContent } from '@/components/ui/sheet';
+import {
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetClose,
+} from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -62,20 +67,28 @@ export default function Navbar() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left">
-            <Link href="/" className="flex items-center gap-2" prefetch={false}>
-              <Image src={logo} alt="app logo" height={40} width={40} />{' '}
-              <span className="text-lg font-semibold">Workwise</span>
-            </Link>
+            <SheetClose asChild>
+              <Link
+                href="/"
+                className="flex items-center gap-2"
+                prefetch={false}
+              >
+                <Image src={logo} alt="app logo" height={40} width={40} />{' '}
+                <span className="text-lg font-semibold">Workwise</span>
+              </Link>
+            </SheetClose>
             <div className="grid gap-4 py-6">
               {links.map((link, index) => (
-                <Link
-                  href={link.href}
-                  className="text-lg font-medium underline-offset-4 hover:underline"
-                  prefetch={false}
-                  key={index}
-                >
-                  {link.label}
-                </Link>
+                <SheetClose asChild key={index}>
+                  <Link
+                    href={link.href}
+                    className="text-lg font-medium underline-offset-4 hover:underline"
+                    prefetch={false}
+                    key={index}
+                  >
+                    {link.label}
+                  </Link>
+                </SheetClose>
               ))}
             </div>
           </SheetContent>
@@ -108,14 +121,19 @@ export default function Navbar() {
                       />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem
-                        onClick={() => router.push('/dashboard')}
-                        className="cursor-pointer"
-                      >
-                        Profile
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>Saved jobs</DropdownMenuItem>
-                      <DropdownMenuSeparator />
+                      {session.user.role === userRole.USER && (
+                        <>
+                          <DropdownMenuItem
+                            onClick={() => router.push('/dashboard')}
+                            className="cursor-pointer"
+                          >
+                            Profile
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>Saved jobs</DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                        </>
+                      )}
+
                       <DropdownMenuItem
                         onClick={() => signOut({ callbackUrl: '/login' })}
                       >
