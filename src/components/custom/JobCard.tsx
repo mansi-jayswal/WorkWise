@@ -1,6 +1,3 @@
-'use client';
-// import { useState } from 'react';
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -11,68 +8,64 @@ import {
 } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-// import { FaRegBookmark, FaBookmark } from 'react-icons/fa';
 import AvtarComp from './AvtarComp';
+import Link from 'next/link';
 
-interface JobCardProps {
-  jobData: {
-    companyName: string;
-    location: string;
-    position: string;
-    salary: number;
-    tags?: string[];
-    companyLogo?: string;
-    createdAt: Date;
-  };
+interface IJob {
+  companyName: string;
+  location: string;
+  position: string;
+  salary: number;
+  tags?: string[];
+  companyLogo?: string;
+  createdAt: string;
 }
 
-function JobCard({ jobData }: JobCardProps) {
-  // const [isSaved, setIsSaved] = useState(false);
+interface JobCardProps {
+  jobData: IJob;
+}
 
-  // const handleSaveClick = () => {
-  //   setIsSaved(!isSaved);
-  // };
-
+function JobCard({
+  jobData: {
+    companyName,
+    location,
+    position,
+    salary,
+    tags,
+    companyLogo,
+    createdAt,
+  },
+}: JobCardProps) {
   return (
-    <Card className="w-[80vw] max-w-max shadow-xl">
+    <Card className="max-w-sm overflow-hidden rounded shadow-lg">
       <CardHeader className="flex flex-row items-center justify-start">
-        <div className="flex h-10 w-10 items-center justify-center rounded-full border object-fill">
-          {jobData.companyLogo ? (
-            <Image
-              // src={jobData.companyLogo as string}
-              src="/public/jobLogo.png"
+        <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border">
+          {companyLogo ? (
+            <img
+              src={companyLogo as string}
               alt="Company Logo"
-              width={300}
-              height={300}
+              className="h-full w-full object-cover"
             />
           ) : (
-            <AvtarComp name={jobData.companyName} />
+            <AvtarComp name={companyName} />
           )}
         </div>
         <div className="ml-5 flex flex-col gap-1">
-          <p className="text-lg font-bold">{jobData.companyName}</p>
-          <p className="text-sm">{jobData.location}</p>
+          <p className="text-lg font-bold">{companyName}</p>
+          <p className="text-sm">{location}</p>
         </div>
-        {/* <Button
-          variant="ghost"
-          className="ml-auto flex h-8 flex-row gap-1"
-          onClick={handleSaveClick}
-        >
-          {isSaved ? <FaBookmark /> : <FaRegBookmark />}
-        </Button> */}
       </CardHeader>
       <div className="mx-3 mb-4 h-[1px] bg-gray-400"></div>
       <CardContent>
         <div className="flex flex-col gap-5">
-          <div className="">
-            <CardTitle>{jobData.position}</CardTitle>
+          <div>
+            <CardTitle>{position}</CardTitle>
             <span className="text-sm">
-              Posted on {jobData.createdAt.toDateString()}
+              Posted on {new Date(createdAt).toDateString()}
             </span>
           </div>
           <div className="flex flex-row gap-3">
-            {jobData.tags &&
-              jobData.tags.map((tag) => <Badge key={tag}>{tag}</Badge>)}
+            {tags && tags.map((tag) => <Badge key={tag}>{tag}</Badge>)}
           </div>
         </div>
       </CardContent>
@@ -80,11 +73,13 @@ function JobCard({ jobData }: JobCardProps) {
         <div className="flex flex-col gap-1 font-bold">
           <Label>Salary:</Label>
           <h4 className="text-xl">
-            ${jobData.salary}
+            ${salary}
             <span className="align text-sm">/month</span>
           </h4>
         </div>
-        <Button className="rounded-xl">Read more</Button>
+        <Button className="rounded-xl">
+          <Link href="#">Read More</Link>
+        </Button>
       </CardFooter>
     </Card>
   );

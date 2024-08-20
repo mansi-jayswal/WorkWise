@@ -1,4 +1,4 @@
-import HomePage from '@/components/custom/HomePage';
+import HomePage from '@/components/custom/homePage/HomePage';
 // import JobCard from '@/components/custom/JobCard';
 import React from 'react';
 

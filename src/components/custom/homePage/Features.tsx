@@ -1,8 +1,8 @@
 'use client';
 import Image from 'next/image';
 import React from 'react';
-import jobSearch from '../../../public/jobSearch.webp';
-import { Button } from '../ui/button';
+import jobSearch from '../../../../public/jobSearch.webp';
+import { Button } from '../../ui/button';
 import { FaRegEdit } from 'react-icons/fa';
 import { GrLocation } from 'react-icons/gr';
 import { GrAchievement } from 'react-icons/gr';

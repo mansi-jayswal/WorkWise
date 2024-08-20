@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/app/context/theme-provider';
 import { getServerSession } from 'next-auth';
 import SessionProviderWrapper from './context/SessionProvider';
 import Navbar from '@/components/custom/Navbar';
+import Footer from '@/components/custom/footer/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -35,6 +36,7 @@ export default async function RootLayout({
               <Toaster />
               <Navbar />
               <main>{children}</main>
+              <Footer />
             </ThemeProvider>
           </div>
         </body>

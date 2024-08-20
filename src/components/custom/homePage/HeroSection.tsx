@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import React from 'react';
-import heroSectionImage from '../../../public/herosectionImage.png';
-import microsoft from '../../../public/microsoft.svg';
-import airbnb from '../../../public/airbnb.svg';
-import bissel from '../../../public/bissell.svg';
-import { Button } from '../ui/button';
+import heroSectionImage from '../../../../public/herosectionImage.png';
+import microsoft from '../../../../public/microsoft.svg';
+import airbnb from '../../../../public/airbnb.svg';
+import bissel from '../../../../public/bissell.svg';
+import { Button } from '../../ui/button';
 
 function HeroSection() {
   return (
